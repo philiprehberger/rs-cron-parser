@@ -1,10 +1,13 @@
 [package]
 name = "philiprehberger-cron-parser"
-version = "0.1.5"
+version = "0.1.6"
 edition = "2021"
 authors = ["Philip Rehberger"]
 description = "Cron expression parsing, scheduling, and human-readable descriptions"
 license = "MIT"
 repository = "https://github.com/philiprehberger/rs-cron-parser"
+readme = "README.md"
+rust-version = "1.70"
+documentation = "https://docs.rs/philiprehberger-cron-parser"
 keywords = ["cron", "scheduler", "parser", "time", "job"]
 categories = ["date-and-time", "parser-implementations"]

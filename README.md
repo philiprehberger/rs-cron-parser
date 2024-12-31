@@ -10,7 +10,7 @@ Cron expression parsing, scheduling, and human-readable descriptions.
 
 ```toml
 [dependencies]
-philiprehberger-cron-parser = "0.1.5"
+philiprehberger-cron-parser = "0.1.6"
 ```
 
 ## Usage
@@ -44,6 +44,14 @@ let hourly = CronExpr::parse("@hourly").unwrap();
 | `.matches(dt)` | Check if dt matches the expression |
 | `.describe()` | Human-readable description |
 | `DateTime` | Simple date/time struct |
+
+
+## Development
+
+```bash
+cargo test
+cargo clippy -- -D warnings
+```
 
 ## License
 
