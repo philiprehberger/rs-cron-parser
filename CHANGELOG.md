@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0 (2026-03-20)
+
+- Add FromStr trait implementation for CronExpr
+- Add Display trait implementation for CronExpr
+- Add Hash and Copy derives to DateTime
+- Add to_timestamp() method on DateTime
+- Add #[must_use] attributes on query methods
+
 ## 0.1.6 (2026-03-17)
 
 - Add readme, rust-version, documentation to Cargo.toml
