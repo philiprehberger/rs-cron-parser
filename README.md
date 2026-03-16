@@ -10,7 +10,7 @@ Cron expression parsing, scheduling, and human-readable descriptions.
 
 ```toml
 [dependencies]
-philiprehberger-cron-parser = "0.1"
+philiprehberger-cron-parser = "0.1.5"
 ```
 
 ## Usage
