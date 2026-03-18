@@ -4,7 +4,7 @@
 [![Crates.io](https://img.shields.io/crates/v/philiprehberger-cron-parser.svg)](https://crates.io/crates/philiprehberger-cron-parser)
 [![License](https://img.shields.io/github/license/philiprehberger/rs-cron-parser)](LICENSE)
 
-Cron expression parsing, scheduling, and human-readable descriptions.
+Cron expression parsing, scheduling, and human-readable descriptions
 
 ## Installation
 
