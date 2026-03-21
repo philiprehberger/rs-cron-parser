@@ -27,6 +27,7 @@
 //! Aliases: `@hourly`, `@daily`, `@midnight`, `@weekly`, `@monthly`, `@yearly`, `@annually`
 
 use std::fmt;
+use std::str::FromStr;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 // ---------------------------------------------------------------------------
@@ -34,7 +35,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 // ---------------------------------------------------------------------------
 
 /// A simple UTC date-time with second precision.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub struct DateTime {
     pub year: i32,
     pub month: u8,
@@ -142,6 +143,27 @@ impl DateTime {
             minute,
             second,
         }
+    }
+
+    /// Converts this `DateTime` back to a Unix timestamp (seconds since 1970-01-01 00:00:00 UTC).
+    #[must_use]
+    pub fn to_timestamp(&self) -> i64 {
+        let mut days: i64 = 0;
+
+        // Add days for complete years since 1970
+        for y in 1970..self.year {
+            days += if is_leap_year(y) { 366 } else { 365 };
+        }
+
+        // Add days for complete months in the current year
+        for m in 1..self.month {
+            days += days_in_month(self.year, m) as i64;
+        }
+
+        // Add remaining days (day is 1-based)
+        days += (self.day as i64) - 1;
+
+        days * 86400 + (self.hour as i64) * 3600 + (self.minute as i64) * 60 + (self.second as i64)
     }
 
     /// Advance by one minute, returning a new `DateTime` with second set to 0.
@@ -506,6 +528,7 @@ impl CronExpr {
     /// let dt = DateTime { year: 2026, month: 3, day: 15, hour: 9, minute: 0, second: 0 };
     /// assert!(expr.matches(&dt));
     /// ```
+    #[must_use]
     pub fn matches(&self, dt: &DateTime) -> bool {
         self.minute.contains(dt.minute)
             && self.hour.contains(dt.hour)
@@ -530,6 +553,7 @@ impl CronExpr {
     /// assert_eq!(next.hour, 9);
     /// assert_eq!(next.minute, 0);
     /// ```
+    #[must_use]
     pub fn next_from(&self, dt: &DateTime) -> Option<DateTime> {
         // Start from the next minute after dt
         let mut candidate = DateTime {
@@ -617,6 +641,7 @@ impl CronExpr {
     /// let times = expr.next_n_from(&dt, 3);
     /// assert_eq!(times.len(), 3);
     /// ```
+    #[must_use]
     pub fn next_n_from(&self, dt: &DateTime, n: usize) -> Vec<DateTime> {
         let mut results = Vec::with_capacity(n);
         let mut current = *dt;
@@ -642,6 +667,7 @@ impl CronExpr {
     /// let expr = CronExpr::parse("*/15 * * * *").unwrap();
     /// assert_eq!(expr.describe(), "Every 15 minutes");
     /// ```
+    #[must_use]
     pub fn describe(&self) -> String {
         // Check for common aliases first
         let norm = self.raw.trim().to_ascii_lowercase();
@@ -742,6 +768,20 @@ impl CronExpr {
         }
 
         parts.join(", ")
+    }
+}
+
+impl FromStr for CronExpr {
+    type Err = ParseError;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        CronExpr::parse(s)
+    }
+}
+
+impl fmt::Display for CronExpr {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.raw)
     }
 }
 

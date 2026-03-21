@@ -10,7 +10,7 @@ Cron expression parsing, scheduling, and human-readable descriptions
 
 ```toml
 [dependencies]
-philiprehberger-cron-parser = "0.1.6"
+philiprehberger-cron-parser = "0.2.0"
 ```
 
 ## Usage
@@ -32,6 +32,14 @@ println!("{}", expr.describe());
 
 // Use aliases
 let hourly = CronExpr::parse("@hourly").unwrap();
+
+// Parse using FromStr trait
+let expr: CronExpr = "*/30 * * * *".parse().unwrap();
+
+// Convert DateTime back to a Unix timestamp
+let dt = DateTime { year: 2026, month: 3, day: 15, hour: 9, minute: 0, second: 0 };
+let ts = dt.to_timestamp();
+// ts = 1773565200
 ```
 
 ## API
