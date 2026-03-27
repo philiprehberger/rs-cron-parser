@@ -3,6 +3,7 @@
 [![CI](https://github.com/philiprehberger/rs-cron-parser/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/rs-cron-parser/actions/workflows/ci.yml)
 [![Crates.io](https://img.shields.io/crates/v/philiprehberger-cron-parser.svg)](https://crates.io/crates/philiprehberger-cron-parser)
 [![License](https://img.shields.io/github/license/philiprehberger/rs-cron-parser)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Cron expression parsing, scheduling, and human-readable descriptions
 
